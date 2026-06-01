@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#e07a5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Make Something">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Make Something">
+    <meta name="msapplication-TileColor" content="#e07a5f">
+    <meta name="msapplication-navbutton-color" content="#e07a5f">
+    
+    <title>Make Something Today</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWFrZSBTb21ldGhpbmciLCJzaG9ydF9uYW1lIjoiQ3JlYXRlIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNmYWY5ZjYiLCJ0aGVtZV9jb2xvciI6IiNlMDdhNWYiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxOTIgMTkyJyUzRSUzQ3JlY3Qgd2lkdGg9JzE5MicgaGVpZ2h0PScxOTInIHJ4PScyNCcgZmlsbD0nI2UwN2E1ZiUnLz4lM0N0ZXh0IHg9Jzk2JyB5PScxNDAnIGZvbnQtc2l6ZT0nMTIwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyUzRSeJOCU5MyUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='24' fill='%23e07a5f'/%3E%3Ctext x='96' y='140' font-size='120' text-anchor='middle'%3E✨%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 152 152'%3E%3Crect width='152' height='152' rx='19' fill='%23e07a5f'/%3E%3Ctext x='76' y='110' font-size='95' text-anchor='middle'%3E✨%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='22' fill='%23e07a5f'/%3E%3Ctext x='90' y='130' font-size='110' text-anchor='middle'%3E✨%3C/text%3E%3C/svg%3E">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E✨%3C/text%3E%3C/svg%3E">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --terracotta: #e07a5f;
+            --sage: #81b29a;
+            --mustard: #f2cc8f;
+            --dusty-rose: #d4a5a5;
+            --lavender: #b8b8d1;
+            --cream: #f4f1de;
+            --charcoal: #3d405b;
+            --warm-white: #faf9f6;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--warm-white);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .font-handwritten {
+            font-family: 'Caveat', cursive;
+        }
+        
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Paper texture background */
+        .paper-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-color: var(--warm-white);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(224, 122, 95, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(129, 178, 154, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 10%, rgba(242, 204, 143, 0.1) 0%, transparent 50%);
+        }
+        
+        /* Noise texture overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        
+        /* Floating elements */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(-3deg); }
+            75% { transform: translateY(-30px) rotate(2deg); }
+        }
+        
+        /* Washi tape effect */
+        .washi-tape {
+            position: absolute;
+            height: 24px;
+            opacity: 0.8;
+            transform: rotate(-2deg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .washi-tape::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.3) 10px,
+                rgba(255,255,255,0.3) 20px
+            );
+        }
+        
+        /* Polaroid frame */
+        .polaroid {
+            background: white;
+            padding: 12px 12px 40px 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        /* Scrapbook paper layers */
+        .paper-layer {
+            background: white;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        
+        .paper-layer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--mustard);
+            z-index: -1;
+            transform: rotate(1deg);
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background: var(--terracotta);
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn-primary:hover {
+            background: #c96a52;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(224, 122, 95, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+        }
+        
+        /* Category pills */
+        .category-pill {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .category-pill:hover {
+            transform: translateY(-2px);
+        }
+        
+        .category-pill.active {
+            background: var(--charcoal);
+            color: var(--warm-white);
+            border-color: var(--charcoal);
+        }
+        
+        /* Mood buttons */
+        .mood-btn {
+            transition: all 0.3s ease;
+            border: 2px solid var(--charcoal);
+            background: white;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .mood-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 3px 3px 0 var(--charcoal);
+        }
+        
+        .mood-btn.selected {
+            background: var(--mustard);
+            box-shadow: 3px 3px 0 var(--charcoal);
+            transform: scale(1.05);
+        }
+        
+        /* Card reveal */
+        @keyframes revealUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) rotate(-1deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+        
+        .reveal {
+            animation: revealUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        /* Sticker animation */
+        @keyframes stickerPeel {
+            0% { transform: scale(0) rotate(-20deg); }
+            70% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        .sticker-appear {
+            animation: stickerPeel 0.5s ease-out forwards;
+        }
+        
+        /* Confetti for crafts */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Hand-drawn border effect */
+        .hand-drawn-border {
+            border: 2px solid var(--charcoal);
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        }
+        
+        /* Stamp effect */
+        .stamp {
+            border: 3px solid var(--terracotta);
+            color: var(--terracotta);
+            border-radius: 50%;
+            transform: rotate(-5deg);
+            opacity: 0.9;
+        }
+        
+        /* Scissors divider */
+        .scissors-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .scissors-divider::before,
+        .scissors-divider::after {
+            content: '';
+            flex: 1;
+            border-top: 2px dashed var(--charcoal);
+            opacity: 0.2;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--warm-white);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--dusty-rose);
+            border-radius: 5px;
+        }
+        
+        /* Tag style */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--sage);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transform: rotate(-1deg);
+        }
+        
+        /* Polaroid gallery */
+        .polaroid-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        @media (max-width: 640px) {
+            .polaroid-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Install prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--charcoal);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            max-width: 90%;
+            width: 400px;
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        .install-prompt.show {
+            display: flex;
+        }
+        
+        /* PWA standalone mode adjustments */
+        @media (display-mode: standalone) {
+            header {
+                padding-top: 48px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background layers -->
+    <div class="paper-bg"></div>
+    <div class="noise-overlay"></div>
+    
+    <!-- Floating decorative elements -->
+    <div class="floating-element" style="top: 10%; left: 5%; font-size: 4rem; animation-delay: 0s;">📖</div>
+    <div class="floating-element" style="top: 60%; right: 8%; font-size: 3rem; animation-delay: 5s;">✂️</div>
+    <div class="floating-element" style="top: 30%; right: 15%; font-size: 3.5rem; animation-delay: 10s;">🎨</div>
+    <div class="floating-element" style="bottom: 20%; left: 10%; font-size: 3rem; animation-delay: 15s;">🖋️</div>
+
+    <!-- Install Prompt -->
+    <div id="installPrompt" class="install-prompt">
+        <span class="text-2xl">📱</span>
+        <div class="flex-1">
+            <div class="font-bold text-sm">Add to Home Screen</div>
+            <div class="text-xs opacity-80">Open like a real app — no browser bar</div>
+        </div>
+        <button onclick="showInstallInstructions()" class="bg-white text-[var(--charcoal)] px-4 py-2 rounded-lg text-sm font-bold">How?</button>
+        <button onclick="dismissInstall()" class="text-white/60 hover:text-white text-xl">&times;</button>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-10 pt-8 pb-4 px-4">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[var(--terracotta)] flex items-center justify-center text-2xl shadow-lg transform -rotate-6">
+                    📚
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold font-serif tracking-tight text-[var(--charcoal)]">Make Something Today</h1>
+                    <p class="text-sm text-[var(--terracotta)] font-handwritten text-xl -mt-1">Break the scroll. Create instead.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <div class="text-3xl font-bold font-handwritten text-[var(--terracotta)]" id="streakCount">0</div>
+                    <div class="text-xs text-[var(--charcoal)] opacity-60 font-medium uppercase tracking-wider">day streak</div>
+                </div>
+                <button onclick="showAbout()" class="p-2 rounded-full hover:bg-[var(--mustard)] transition-colors border-2 border-[var(--charcoal)]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 pb-20">
+        
+        <!-- Hero Section -->
+        <section class="text-center py-12 md:py-16 relative">
+            <!-- Washi tape decoration -->
+            <div class="washi-tape bg-[var(--sage)]" style="top: 20px; left: 20%; width: 80px;"></div>
+            <div class="washi-tape bg-[var(--mustard)]" style="top: 40px; right: 15%; width: 60px; transform: rotate(3deg);"></div>
+            
+            <h2 class="text-4xl md:text-6xl font-bold font-serif mb-2 leading-tight text-[var(--charcoal)]">
+                Stop scrolling.
+            </h2>
+            <h2 class="text-4xl md:text-6xl font-bold font-handwritten mb-6 leading-tight text-[var(--terracotta)] transform -rotate-2">
+                Start creating.
+            </h2>
+            <p class="text-[var(--charcoal)] opacity-70 text-lg max-w-xl mx-auto mb-8 font-medium">
+                Every time you reach for your phone to scroll, come here instead. We'll give you something beautiful to make, read, or journal.
+            </p>
+            
+            <!-- Mood Selector -->
+            <div class="mb-10">
+                <p class="text-sm text-[var(--charcoal)] opacity-60 mb-4 uppercase tracking-wider font-bold">How are you feeling?</p>
+                <div class="flex justify-center gap-3 flex-wrap" id="moodSelector">
+                    <button class="mood-btn px-5 py-2 rounded-full text-sm font-medium" data-mood="tired">😴 Tired</button>
+                    <button class="mood-btn px-5 py-2 rounded-full text-sm font-medium" data-mood="anxious">😰 Anxious</button>
+                    <button class="mood-btn px-5 py-2 rounded-full text-sm font-medium" data-mood="bored">😑 Bored</button>
+                    <button class="mood-btn px-5 py-2 rounded-full text-sm font-medium" data-mood="energetic">⚡ Energetic</button>
+                    <button class="mood-btn px-5 py-2 rounded-full text-sm font-medium" data-mood="curious">🤔 Curious</button>
+                </div>
+            </div>
+
+            <button onclick="generateIdea()" class="btn-primary px-8 py-4 rounded-2xl font-bold text-lg shadow-lg flex items-center gap-3 mx-auto font-handwritten text-2xl border-2 border-[var(--charcoal)]">
+                <span>🎲</span>
+                <span>Give me something to create</span>
+            </button>
+        </section>
+
+        <div class="scissors-divider">
+            <span class="text-2xl">✂️</span>
+        </div>
+
+        <!-- Category Filters -->
+        <section class="mb-8">
+            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide" id="categoryFilters">
+                <button class="category-pill active px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="all">All Ideas</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="scrapbooking">📷 Scrapbooking</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="junkjournal">📓 Junk Journaling</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="reading">📚 Reading</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="writing">✍️ Writing</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="paper">📄 Paper Crafts</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium" data-category="mixed">🎨 Mixed Media</button>
+            </div>
+        </section>
+
+        <!-- Idea Display -->
+        <section id="ideaDisplay" class="min-h-[400px] flex items-center justify-center">
+            <div class="text-center opacity-50">
+                <div class="text-6xl mb-4">🎯</div>
+                <p class="text-lg font-handwritten text-2xl">Click the button above to get your first creative mission</p>
+            </div>
+        </section>
+
+        <!-- Completed Ideas -->
+        <section id="completedSection" class="mt-16 hidden">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-[var(--sage)] flex items-center justify-center text-white">🏆</div>
+                <h3 class="text-2xl font-bold font-serif">Your Creative Wins</h3>
+            </div>
+            <div id="completedList" class="polaroid-grid"></div>
+        </section>
+
+    </main>
+
+    <!-- Install Instructions Modal -->
+    <div id="installModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-[var(--warm-white)] border-4 border-[var(--charcoal)] rounded-3xl max-w-md w-full p-8 relative hand-drawn-border">
+            <div class="washi-tape bg-[var(--terracotta)]" style="top: -12px; left: 50%; transform: translateX(-50%) rotate(-1deg); width: 100px;"></div>
+            
+            <button onclick="hideInstallModal()" class="absolute top-4 right-4 text-[var(--charcoal)] hover:text-[var(--terracotta)] transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 class="text-3xl font-bold font-serif mb-6 text-[var(--charcoal)]">Add to Home Screen</h3>
+            
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-[var(--mustard)] flex items-center justify-center font-bold text-[var(--charcoal)] flex-shrink-0">1</div>
+                    <div>
+                        <p class="font-bold text-[var(--charcoal)]">Tap the Chrome menu</p>
+                        <p class="text-sm text-[var(--charcoal)] opacity-70">Three dots (⋮) in the top right corner</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-[var(--sage)] flex items-center justify-center font-bold text-white flex-shrink-0">2</div>
+                    <div>
+                        <p class="font-bold text-[var(--charcoal)]">Look for "Add to Home screen"</p>
+                        <p class="text-sm text-[var(--charcoal)] opacity-70">Or tap "Install app" if you see it</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-[var(--dusty-rose)] flex items-center justify-center font-bold text-white flex-shrink-0">3</div>
+                    <div>
+                        <p class="font-bold text-[var(--charcoal)]">Tap "Add" or "Install"</p>
+                        <p class="text-sm text-[var(--charcoal)] opacity-70">The app icon will appear on your home screen</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-[var(--mustard)]/30 rounded-xl border-2 border-[var(--charcoal)]">
+                <p class="text-sm text-[var(--charcoal)] font-medium">
+                    <strong>Can't find it?</strong> Try Chrome menu → Share → "Add to Home screen"
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-[var(--warm-white)] border-4 border-[var(--charcoal)] rounded-3xl max-w-md w-full p-8 relative hand-drawn-border">
+            <div class="washi-tape bg-[var(--dusty-rose)]" style="top: -12px; left: 50%; transform: translateX(-50%) rotate(-1deg); width: 100px;"></div>
+            
+            <button onclick="hideAbout()" class="absolute top-4 right-4 text-[var(--charcoal)] hover:text-[var(--terracotta)] transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <h3 class="text-3xl font-bold font-serif mb-4 text-[var(--charcoal)]">About This Journal</h3>
+            <p class="text-[var(--charcoal)] opacity-80 mb-4 leading-relaxed">
+                Doomscrolling is designed to keep you addicted. This little corner of the internet is designed to do the opposite — give you a meaningful, creative alternative every time you feel the urge to mindlessly scroll.
+            </p>
+            <p class="text-[var(--charcoal)] opacity-80 mb-6 leading-relaxed">
+                Each idea is designed to be completable in 15-60 minutes. No pressure, no perfectionism. Just create something with your hands, read something with your heart, or journal something from your soul.
+            </p>
+            
+            <div class="bg-[var(--mustard)]/30 rounded-2xl p-5 border-2 border-[var(--charcoal)] relative">
+                <div class="absolute -top-3 -left-3 w-8 h-8 bg-[var(--terracotta)] rounded-full flex items-center justify-center text-white text-sm">!</div>
+                <p class="text-sm text-[var(--charcoal)] font-medium">
+                    <strong>Pro tip:</strong> Bookmark this page on your phone's home screen. When you catch yourself opening social media out of habit, open this instead. Your hands were made for creating, not just scrolling.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PWA Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                self.addEventListener('install', e => self.skipWaiting());
+                self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+                self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+            `)).catch(() => {});
+        }
+
+        // Detect install prompt availability
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPrompt();
+        });
+
+        // Check if already installed
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            document.getElementById('installPrompt').style.display = 'none';
+        }
+
+        function showInstallPrompt() {
+            const prompt = document.getElementById('installPrompt');
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                prompt.classList.add('show');
+            }
+        }
+
+        function dismissInstall() {
+            document.getElementById('installPrompt').classList.remove('show');
+        }
+
+        function showInstallInstructions() {
+            document.getElementById('installModal').classList.remove('hidden');
+            dismissInstall();
+        }
+
+        function hideInstallModal() {
+            document.getElementById('installModal').classList.add('hidden');
+        }
+
+        // Creative Ideas Database
+        const ideas = [
+            // Scrapbooking
+            { id: 1, category: 'scrapbooking', title: 'Create a "Day in the Life" Spread', description: 'Take 5 photos today of ordinary moments. Print them (or use a Polaroid if you have one) and arrange them on a page with handwritten captions and date stamps.', time: '45 min', difficulty: 'Easy', mood: ['curious', 'energetic'], icon: '📷' },
+            { id: 2, category: 'scrapbooking', title: 'Memory Lane Ticket Stub Page', description: 'Gather old tickets, receipts, or business cards from your wallet. Create a collage page documenting places you\'ve been. Add doodles around the edges.', time: '30 min', difficulty: 'Easy', mood: ['nostalgic', 'bored'], icon: '🎫' },
+            { id: 3, category: 'scrapbooking', title: 'Color-Coordinated Mood Board', description: 'Pick one color. Find magazine cutouts, fabric scraps, and photos in that shade. Arrange them in a gradient on your scrapbook page.', time: '35 min', difficulty: 'Easy', mood: ['anxious', 'bored'], icon: '🌈' },
+            { id: 4, category: 'scrapbooking', title: 'Family Recipe Scrapbook Page', description: 'Write down a recipe from memory. Add a photo of the dish or ingredients. Decorate with food-related stickers or drawings of herbs.', time: '40 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '🍳' },
+            { id: 5, category: 'scrapbooking', title: 'Nature Walk Pressed Flower Page', description: 'Go outside and collect 3-5 small flowers or leaves. Press them in a heavy book for 10 minutes, then arrange and glue them onto cardstock with labels.', time: '25 min', difficulty: 'Easy', mood: ['tired', 'anxious'], icon: '🌿' },
+            { id: 6, category: 'scrapbooking', title: 'Playlist Scrapbook Spread', description: 'Design a page around your current favorite song. Write the lyrics, create a fake album cover, and list why each song matters to you right now.', time: '45 min', difficulty: 'Medium', mood: ['energetic', 'bored'], icon: '🎵' },
+            { id: 7, category: 'scrapbooking', title: 'Gratitude Mini-Album', description: 'Fold one sheet of paper into an 8-page booklet. On each page, glue one thing you\'re grateful for with a one-sentence story.', time: '30 min', difficulty: 'Easy', mood: ['anxious', 'tired'], icon: '💝' },
+            { id: 8, category: 'scrapbooking', title: 'Shadow Box Memory Frame', description: 'Use a shoebox lid or deep frame. Layer 3D objects: a shell, a photo, a ticket. Create depth with cardboard spacers.', time: '50 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '🖼️' },
+
+            // Junk Journaling
+            { id: 9, category: 'junkjournal', title: 'Coffee Stain Background Page', description: 'Brew strong coffee or tea. Paint it onto a page with a brush, or spill it artistically. Once dry, write over it with white gel pen or metallic marker.', time: '20 min', difficulty: 'Easy', mood: ['tired', 'bored'], icon: '☕' },
+            { id: 10, category: 'junkjournal', title: 'Envelope Pocket Page', description: 'Glue an old envelope to your journal page to create a pocket. Fill it with a secret note, a pressed flower, or a photo you don\'t want to glue down.', time: '15 min', difficulty: 'Easy', mood: ['anxious', 'tired'], icon: '✉️' },
+            { id: 11, category: 'junkjournal', title: 'Washi Tape Border Collage', description: 'Use only washi tape (or masking tape colored with markers) to create a decorative border. Layer different patterns and widths. Write inside the frame.', time: '20 min', difficulty: 'Easy', mood: ['bored', 'anxious'], icon: '🎀' },
+            { id: 12, category: 'junkjournal', title: 'Found Poetry Page', description: 'Take a page from an old magazine or book. Circle words to create a poem. Black out everything else with marker or paint. Frame with doodles.', time: '30 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '✂️' },
+            { id: 13, category: 'junkjournal', title: 'Fabric & Lace Texture Page', description: 'Glue fabric scraps, lace, or mesh onto your page. Write over the textures or leave them as tactile elements. Add a button or bead for 3D effect.', time: '25 min', difficulty: 'Easy', mood: ['tired', 'bored'], icon: '🧵' },
+            { id: 14, category: 'junkjournal', title: 'Stamp & Ink Exploration', description: 'If you have stamps, use them. If not, carve a simple shape from an eraser or potato. Ink it up and create a repeating pattern on your page.', time: '35 min', difficulty: 'Medium', mood: ['energetic', 'curious'], icon: '💮' },
+            { id: 15, category: 'junkjournal', title: 'Layered Transparent Page', description: 'Use tracing paper, tissue paper, or vellum to create overlays. Write on each layer so text overlaps when you flip the page. Sew or staple the layers.', time: '40 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '📃' },
+            { id: 16, category: 'junkjournal', title: 'Junk Mail Collage', description: 'Cut up colorful junk mail, catalogs, or packaging. Arrange the pieces into a new image or abstract pattern. Glue and seal with mod podge or glue.', time: '30 min', difficulty: 'Easy', mood: ['bored', 'anxious'], icon: '♻️' },
+            { id: 17, category: 'junkjournal', title: 'Hidden Message Watercolor', description: 'Write a secret message in white crayon on your page. Paint over it with watercolor. The message will magically appear through the paint!', time: '25 min', difficulty: 'Easy', mood: ['curious', 'energetic'], icon: '🔮' },
+            { id: 18, category: 'junkjournal', title: 'Vintage Photo Transfer', description: 'Print a photo on regular paper (not photo paper). Brush water onto the back and gently rub the paper away. The image will transfer to your journal page.', time: '35 min', difficulty: 'Hard', mood: ['curious', 'energetic'], icon: '📸' },
+
+            // Reading
+            { id: 19, category: 'reading', title: 'Read One Chapter Aloud', description: 'Pick any book. Read one chapter out loud to yourself, a pet, or a plant. Hearing the words changes how you experience them. Note any lines that hit differently.', time: '30 min', difficulty: 'Easy', mood: ['tired', 'anxious'], icon: '📖' },
+            { id: 20, category: 'reading', title: 'Create a "Books I Want to Live In" List', description: 'Think of 5 fictional worlds you wish were real. Write them down with one sentence explaining why. Decorate the list like a travel brochure.', time: '20 min', difficulty: 'Easy', mood: ['bored', 'curious'], icon: '🌍' },
+            { id: 21, category: 'reading', title: 'Poetry Tea Time', description: 'Brew tea. Open a poetry book (or search "poem of the day"). Read slowly. Copy your favorite stanza into your journal with illustrations around it.', time: '25 min', difficulty: 'Easy', mood: ['tired', 'anxious'], icon: '🍵' },
+            { id: 22, category: 'reading', title: 'Character Letter Writing', description: 'Write a letter to a character from a book you love. Tell them what you think of their choices. Or write AS the character to someone in your life.', time: '30 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '💌' },
+            { id: 23, category: 'reading', title: 'First Line Rewrite Challenge', description: 'Find 3 famous first lines from novels. Rewrite each one in a completely different genre. "It was the best of times" as a sci-fi horror opening.', time: '25 min', difficulty: 'Medium', mood: ['energetic', 'bored'], icon: '✍️' },
+            { id: 24, category: 'reading', title: 'Read a Short Story in One Sitting', description: 'Find a short story online (try "The Library of America" or "Narrative Magazine"). Read it entirely without looking at your phone. Journal one thought about it.', time: '45 min', difficulty: 'Easy', mood: ['tired', 'anxious'], icon: '📚' },
+            { id: 25, category: 'reading', title: 'Create a Reading Map', description: 'Draw a map of your reading life. Put your favorite book at the center. Branch out to books that led you to it or that it led you to. Like a mind map for literature.', time: '35 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '🗺️' },
+            { id: 26, category: 'reading', title: 'Blind Date with a Book', description: 'Wrap a book you own in paper. Write only 3 clues about it on the cover. Read the first 20 pages without knowing exactly what it is. Journal your surprise.', time: '30 min', difficulty: 'Easy', mood: ['curious', 'bored'], icon: '🎁' },
+
+            // Writing
+            { id: 27, category: 'writing', title: 'Morning Pages (3 Full Pages)', description: 'Stream-of-consciousness writing. No editing, no judgment. Just fill 3 pages with whatever is in your head. Burn or keep — your choice.', time: '25 min', difficulty: 'Easy', mood: ['anxious', 'tired'], icon: '🌅' },
+            { id: 28, category: 'writing', title: 'Write a Letter to Your Future Self', description: 'Describe your current life, worries, and dreams. Seal it in an envelope and glue it into your journal. Write "Open on [Date]" on the front.', time: '20 min', difficulty: 'Easy', mood: ['anxious', 'curious'], icon: '🔮' },
+            { id: 29, category: 'writing', title: 'Create a Fictional Library Card', description: 'Design a library card for a made-up library. What are the rules? What books are overdue? Who is the librarian? Make it look vintage and official.', time: '30 min', difficulty: 'Easy', mood: ['bored', 'energetic'], icon: '🏛️' },
+            { id: 30, category: 'writing', title: 'Document Your Day in Haikus', description: 'Write 5 haikus (5-7-5 syllables) describing different moments from today. Write them on separate strips of paper and paste them scattered on your page.', time: '20 min', difficulty: 'Easy', mood: ['tired', 'mindful'], icon: '📝' },
+
+            // Paper Crafts
+            { id: 31, category: 'paper', title: 'Origami Bookmark Corner', description: 'Fold a corner bookmark from one square of paper. Decorate it with doodles, stickers, or washi tape. Make one for a book you\'re currently reading.', time: '15 min', difficulty: 'Easy', mood: ['tired', 'bored'], icon: '📐' },
+            { id: 32, category: 'paper', title: 'Paper Flower Bouquet', description: 'Make 3 flowers from tissue paper, coffee filters, or old book pages. Arrange them in a tiny vase or tie with twine. Document with a photo in your journal.', time: '40 min', difficulty: 'Medium', mood: ['energetic', 'curious'], icon: '🌸' },
+            { id: 33, category: 'paper', title: 'Pop-Up Card for No Reason', description: 'Learn one basic pop-up mechanism from a YouTube tutorial. Make a card for someone (or yourself) celebrating a completely mundane achievement.', time: '35 min', difficulty: 'Medium', mood: ['energetic', 'bored'], icon: '💌' },
+            { id: 34, category: 'paper', title: 'Paper Chain of Gratitude', description: 'Cut strips of colored paper. Write one thing you\'re grateful for on each. Link them into a chain. Hang it somewhere you\'ll see it daily.', time: '25 min', difficulty: 'Easy', mood: ['anxious', 'tired'], icon: '⛓️' },
+
+            // Mixed Media
+            { id: 35, category: 'mixed', title: 'Paint Over an Old Book Page', description: 'Take a page from a falling-apart book. Paint or draw directly over the text. Let the words peek through as texture. Create something new from something old.', time: '30 min', difficulty: 'Medium', mood: ['curious', 'energetic'], icon: '🎨' },
+            { id: 36, category: 'mixed', title: 'Stitched Paper Collage', description: 'Layer paper scraps and fabric on cardstock. Instead of gluing everything, sew some elements with needle and thread for texture. Add a button or bead.', time: '45 min', difficulty: 'Medium', mood: ['tired', 'anxious'], icon: '🪡' },
+            { id: 37, category: 'mixed', title: 'Create a "Currently" Dashboard', description: 'Make a one-page snapshot of your life right now: reading, watching, eating, feeling, wanting. Use magazine letters, photos, and handwriting mixed together.', time: '35 min', difficulty: 'Easy', mood: ['curious', 'bored'], icon: '📊' },
+            { id: 38, category: 'mixed', title: 'Wax Seal & Ribbon Page', description: 'Melt a crayon to create a faux wax seal. Tie a ribbon around your journal page. Make it feel like an old letter or secret document.', time: '20 min', difficulty: 'Easy', mood: ['energetic', 'curious'], icon: '🕯️' }
+        ];
+
+        // State
+        let currentCategory = 'all';
+        let selectedMood = null;
+        let completedIdeas = JSON.parse(localStorage.getItem('completedIdeas') || '[]');
+        let streak = parseInt(localStorage.getItem('streak') || '0');
+        let lastCompleted = localStorage.getItem('lastCompleted');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStreak();
+            updateCompletedList();
+            
+            // Category filters
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    currentCategory = pill.dataset.category;
+                });
+            });
+            
+            // Mood selector
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedMood = btn.dataset.mood;
+                });
+            });
+
+            // Show install prompt after 3 seconds if not installed
+            setTimeout(() => {
+                if (!window.matchMedia('(display-mode: standalone)').matches && !window.navigator.standalone) {
+                    showInstallPrompt();
+                }
+            }, 3000);
+        });
+
+        function generateIdea() {
+            let filtered = ideas;
+            
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(i => i.category === currentCategory);
+            }
+            
+            if (selectedMood) {
+                const moodFiltered = filtered.filter(i => i.mood.includes(selectedMood));
+                if (moodFiltered.length > 0) filtered = moodFiltered;
+            }
+            
+            const uncompleted = filtered.filter(i => !completedIdeas.includes(i.id));
+            if (uncompleted.length > 0) {
+                filtered = uncompleted;
+            }
+            
+            const idea = filtered[Math.floor(Math.random() * filtered.length)];
+            displayIdea(idea);
+        }
+
+        function displayIdea(idea) {
+            const display = document.getElementById('ideaDisplay');
+            const isCompleted = completedIdeas.includes(idea.id);
+            
+            const categoryColors = {
+                scrapbooking: 'bg-[var(--terracotta)]',
+                junkjournal: 'bg-[var(--sage)]',
+                reading: 'bg-[var(--dusty-rose)]',
+                writing: 'bg-[var(--mustard)]',
+                paper: 'bg-[var(--lavender)]',
+                mixed: 'bg-[var(--charcoal)] text-white'
+            };
+            
+            const colorClass = categoryColors[idea.category] || 'bg-[var(--charcoal)] text-white';
+            
+            display.innerHTML = `
+                <div class="w-full max-w-2xl reveal">
+                    <div class="paper-layer bg-white rounded-3xl p-8 md:p-10 relative overflow-hidden ${isCompleted ? 'opacity-75' : ''}">
+                        ${isCompleted ? '<div class="absolute top-4 right-4 stamp w-16 h-16 flex items-center justify-center text-xs font-bold">DONE</div>' : ''}
+                        
+                        <div class="washi-tape ${colorClass}" style="top: -12px; left: 30%; width: 100px;"></div>
+                        
+                        <div class="flex items-start gap-4 mb-6 mt-4">
+                            <div class="text-5xl transform -rotate-6">${idea.icon}</div>
+                            <div class="flex-1">
+                                <span class="tag ${colorClass} mb-2 inline-block">${idea.category}</span>
+                                <h3 class="text-2xl md:text-3xl font-bold font-serif leading-tight text-[var(--charcoal)]">${idea.title}</h3>
+                            </div>
+                        </div>
+                        
+                        <p class="text-[var(--charcoal)] opacity-80 text-lg mb-6 leading-relaxed font-medium">${idea.description}</p>
+                        
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--mustard)]/30 text-sm font-medium border-2 border-[var(--charcoal)]">
+                                <span>⏱️</span>
+                                <span>${idea.time}</span>
+                            </div>
+                            <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--sage)]/30 text-sm font-medium border-2 border-[var(--charcoal)]">
+                                <span>⚡</span>
+                                <span>${idea.difficulty}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-3">
+                            ${!isCompleted ? `
+                                <button onclick="completeIdea(${idea.id})" class="btn-primary flex-1 py-3 rounded-xl font-bold flex items-center justify-center gap-2 font-handwritten text-xl border-2 border-[var(--charcoal)]">
+                                    <span>✨</span>
+                                    <span>I did it!</span>
+                                </button>
+                            ` : `
+                                <button disabled class="flex-1 py-3 rounded-xl bg-[var(--sage)] text-white font-bold flex items-center justify-center gap-2 cursor-not-allowed border-2 border-[var(--charcoal)]">
+                                    <span>✓</span>
+                                    <span>Already done</span>
+                                </button>
+                            `}
+                            <button onclick="generateIdea()" class="px-6 py-3 rounded-xl border-2 border-[var(--charcoal)] hover:bg-[var(--mustard)] transition-colors font-bold font-handwritten text-xl">
+                                🎲 Another
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function completeIdea(id) {
+            if (!completedIdeas.includes(id)) {
+                completedIdeas.push(id);
+                localStorage.setItem('completedIdeas', JSON.stringify(completedIdeas));
+                
+                const today = new Date().toDateString();
+                if (lastCompleted !== today) {
+                    streak++;
+                    localStorage.setItem('streak', streak);
+                    localStorage.setItem('lastCompleted', today);
+                    updateStreak();
+                }
+                
+                createConfetti();
+                updateCompletedList();
+                
+                const idea = ideas.find(i => i.id === id);
+                displayIdea(idea);
+            }
+        }
+
+        function updateStreak() {
+            const el = document.getElementById('streakCount');
+            el.textContent = streak;
+            el.classList.remove('sticker-appear');
+            void el.offsetWidth;
+            el.classList.add('sticker-appear');
+        }
+
+        function updateCompletedList() {
+            const section = document.getElementById('completedSection');
+            const list = document.getElementById('completedList');
+            
+            if (completedIdeas.length === 0) {
+                section.classList.add('hidden');
+                return;
+            }
+            
+            section.classList.remove('hidden');
+            list.innerHTML = completedIdeas.map((id, index) => {
+                const idea = ideas.find(i => i.id === id);
+                const rotation = (index % 3 - 1) * 3;
+                
+                return `
+                    <div class="polaroid" style="transform: rotate(${rotation}deg);">
+                        <div class="bg-[var(--cream)] p-4 rounded-sm mb-3 min-h-[120px] flex items-center justify-center text-4xl">
+                            ${idea.icon}
+                        </div>
+                        <div class="font-handwritten text-xl font-bold text-[var(--charcoal)] leading-tight mb-1">${idea.title}</div>
+                        <div class="text-xs text-[var(--charcoal)] opacity-60 font-medium uppercase">${idea.category} • ${idea.time}</div>
+                        <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-16 h-6 bg-[var(--mustard)] opacity-80" style="transform: translateX(-50%) rotate(-1deg);"></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function createConfetti() {
+            const colors = ['#e07a5f', '#81b29a', '#f2cc8f', '#d4a5a5', '#b8b8d1', '#3d405b'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+                
+                const shape = Math.random();
+                if (shape < 0.33) {
+                    confetti.style.width = Math.random() * 8 + 4 + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = '50%';
+                } else if (shape < 0.66) {
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = Math.random() * 6 + 3 + 'px';
+                } else {
+                    confetti.style.width = Math.random() * 6 + 3 + 'px';
+                    confetti.style.height = Math.random() * 10 + 5 + 'px';
+                }
+                
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        function showAbout() {
+            document.getElementById('aboutModal').classList.remove('hidden');
+        }
+
+        function hideAbout() {
+            document.getElementById('aboutModal').classList.add('hidden');
+        }
+
+        document.getElementById('aboutModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) hideAbout();
+        });
+
+        document.getElementById('installModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) hideInstallModal();
+        });
+    </script>
+</body>
+</html>
